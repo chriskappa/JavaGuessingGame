@@ -1,5 +1,8 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.SourceDataLine;
+
 import java.io.*;
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -18,8 +21,14 @@ public class App {
         App main = new App();
 
         main.printMenu();
+        // int res = main.numberCharactersInWord("test", "t");
+        // System.out.println(res);
         // System.out.println();
 
+    }
+
+    public void cleanLists() {
+        userGuesses.clear();
     }
 
     // Creating User Object in order to have him in Leader board
@@ -39,13 +48,15 @@ public class App {
         int unsuccessfulWords = 0;
 
         String word = randomWord(); // Getting Random Word From List
-        System.out.println("WORD: " + word);
+        // System.out.println("WORD: " + word);
         while (true && playing) {
+            printWord(word);
             System.out.println(); // Printing Next Line
             String userChar = read.nextLine().toLowerCase(); // Reading Player Input
 
             // Validation for empty words
             while (userChar.isEmpty()) {
+                System.out.println("Please Enter Character!");
                 userChar = read.nextLine().toLowerCase();
             }
 
@@ -54,12 +65,9 @@ public class App {
             // Checking if character exist in word
             if (isCharacterInWord(word.toLowerCase(), userChar.toLowerCase())
                     && !numberCharacter(userChar.toLowerCase())) {
-
-                if (numberCharacter(userChar.toLowerCase(), "") > 1) {
-                    System.out.println("Adding:" + numberCharacter(userChar.toLowerCase(), ""));
-                    successWords += numberCharacter(userChar.toLowerCase(), "");
+                if (numberCharactersInWord(word, userChar.toLowerCase()) > 1) {
+                    successWords += numberCharactersInWord(word, userChar.toLowerCase());
                 } else {
-                    system.out.println("Adding:1");
                     successWords++;
                 }
 
@@ -73,13 +81,33 @@ public class App {
             if (word.length() == successWords) {
                 System.out.println("Congratulations " + users.get(0).getName() + "You Won!");
                 System.out.println("Successfull Words:" + successWords + " Unsuccessfull words:" + unsuccessfulWords);
-                break;
-            }
+                System.out.println("Would You Like To Play Again? If Yes Enter  yes or no ");
+                if (read.nextLine().equals("yes")) {
+                    printMenu();
+                } else {
+                    endGame();
+                }
 
-            printWord(word);
+            }
 
         }
 
+    }
+
+    public void endGame() {
+
+        for (int i = 0; i < 7; i++) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                System.out.print(e);
+            }
+            System.out.print(".");
+        }
+        playing = false;
+        System.out.println("");
+        printPlayer();
+        System.out.println("Thank you for playing!");
     }
 
     public void printImage(int num) {
@@ -113,19 +141,7 @@ public class App {
             if (read.nextLine().equals("yes")) {
                 printMenu();
             } else {
-
-                for (int i = 0; i < 7; i++) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (Exception e) {
-                        System.out.print(e);
-                    }
-                    System.out.print(".");
-                }
-                playing = false;
-                System.out.println("");
-                printPlayer();
-                System.out.println("Thank you for playing!");
+                endGame();
             }
 
         }
@@ -165,16 +181,22 @@ public class App {
         }
     }
 
-    public int numberCharacter(String oneCharacter, String test) {
+    // Returning number of user entered character in the word
+    public int numberCharactersInWord(String word, String target) {
         int times = 0;
-        for (Character word : userGuesses) {
-            if (word == oneCharacter.charAt(0)) {
+        char temp;
+
+        for (int i = 0; i < word.length(); i++) {
+            temp = word.charAt(i);
+            if (target.equals(temp + "")) {
                 times++;
             }
+
         }
         return times;
     }
 
+    // Checking if user input character is in the word
     public boolean isCharacterInWord(String word, String target) {
 
         if (word.contains(target)) {
@@ -185,6 +207,7 @@ public class App {
 
     }
 
+    // Creating Random Word From The List
     public String randomWord() {
         Random rand = new Random();
         return words.get(rand.nextInt(words.size())).toLowerCase();
@@ -194,7 +217,7 @@ public class App {
     // User Menu Interface
     public void printMenu() {
         fetchData(); // Fetching Words From TXT.
-
+        cleanLists();
         while (true) {
             System.out.println("Welcome To The Game");
             System.out.println("1)Start Game");
@@ -213,6 +236,7 @@ public class App {
 
     }
 
+    // Method in order to create text file
     public void createTextFile() throws IOException {
         File fl = new File("D:/OneDrive/Desktop/words.txt");
         // File fl = new File(desktopPath);
