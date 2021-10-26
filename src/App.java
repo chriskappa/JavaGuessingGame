@@ -11,8 +11,8 @@ import java.util.Random;
 public class App {
 
     /*
-     * In order to make this program to work properly you need to change the path
-     * for the desktop file, currently its on my D one drive!
+     * Updated Today! In order to make this program to work properly you need to
+     * change the path for the desktop file, currently its on my D one drive!
      */
     List<Character> userGuesses = new ArrayList();
     ArrayList<String> words = new ArrayList<>();
