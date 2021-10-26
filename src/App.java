@@ -19,11 +19,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         App main = new App();
-
         main.printMenu();
-        // int res = main.numberCharactersInWord("test", "t");
-        // System.out.println(res);
-        // System.out.println();
 
     }
 
@@ -245,7 +241,7 @@ public class App {
 
     }
 
-    // Fetching Data From TXT File
+    // Fetching Data From .txt File
     public void fetchData() {
         try {
             Scanner sc = new Scanner(new File("D:/OneDrive/Desktop/words.txt"));
