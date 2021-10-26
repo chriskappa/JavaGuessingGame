@@ -22,6 +22,7 @@ public class App {
 
     }
 
+    // Creating User Object in order to have him in Leader board
     public void createUser() {
         System.out.println("Please Enter your User Name");
         String userName = read.nextLine();
@@ -32,11 +33,12 @@ public class App {
     }
 
     public void startGame() {
-        createUser();
+        createUser(); // Creating User Object
+
         int successWords = 0;
         int unsuccessfulWords = 0;
 
-        String word = randomWord();
+        String word = randomWord(); // Getting Random Word From List
         System.out.println("WORD: " + word);
         while (true && playing) {
             System.out.println(); // Printing Next Line
@@ -47,11 +49,19 @@ public class App {
                 userChar = read.nextLine().toLowerCase();
             }
 
-            userGuesses.add(userChar.charAt(0));
+            userGuesses.add(userChar.charAt(0)); // Adding users entered character to userguess list<characters>
 
+            // Checking if character exist in word
             if (isCharacterInWord(word.toLowerCase(), userChar.toLowerCase())
                     && !numberCharacter(userChar.toLowerCase())) {
-                successWords++;
+
+                if (numberCharacter(userChar.toLowerCase(), "") > 1) {
+                    System.out.println("Adding:" + numberCharacter(userChar.toLowerCase(), ""));
+                    successWords += numberCharacter(userChar.toLowerCase(), "");
+                } else {
+                    system.out.println("Adding:1");
+                    successWords++;
+                }
 
             } else if (!isCharacterInWord(word, userChar)) {
                 unsuccessfulWords++;
@@ -99,7 +109,7 @@ public class App {
         System.out.println("_______________________");
         if (num == 5) {
             System.out.println("You lost " + users.get(users.size() - 1).getName() + ", Try Again!");
-            System.out.println("Would You like to play again? if yes enter  yes or no ");
+            System.out.println("Would You Like To Play Again? If Yes Enter  yes or no ");
             if (read.nextLine().equals("yes")) {
                 printMenu();
             } else {
@@ -153,6 +163,16 @@ public class App {
         } else {
             return false;
         }
+    }
+
+    public int numberCharacter(String oneCharacter, String test) {
+        int times = 0;
+        for (Character word : userGuesses) {
+            if (word == oneCharacter.charAt(0)) {
+                times++;
+            }
+        }
+        return times;
     }
 
     public boolean isCharacterInWord(String word, String target) {
