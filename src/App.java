@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.SourceDataLine;
-
 import java.io.*;
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -10,12 +9,12 @@ import java.util.List;
 import java.util.Random;
 
 public class App {
-    static List<Character> userGuesses = new ArrayList();
+    List<Character> userGuesses = new ArrayList();
     ArrayList<String> words = new ArrayList<>();
     ArrayList<User> users = new ArrayList<User>();
     Scanner read = new Scanner(System.in);
-    boolean playing = true;
-    String desktopPath = System.getProperty("user.home") + "/Desktop";
+    boolean isPlaying = true;
+    String desktopPath = System.getProperty("user.home") + "/Desktop"; // Path for desktop!
 
     public static void main(String[] args) throws Exception {
         App main = new App();
@@ -45,7 +44,7 @@ public class App {
 
         String word = randomWord(); // Getting Random Word From List
         // System.out.println("WORD: " + word);
-        while (true && playing) {
+        while (isPlaying) {
             printWord(word);
             System.out.println(); // Printing Next Line
             String userChar = read.nextLine().toLowerCase(); // Reading Player Input
@@ -100,14 +99,14 @@ public class App {
             }
             System.out.print(".");
         }
-        playing = false;
+        isPlaying = false;
         System.out.println("");
         printPlayer();
-        System.out.println("Thank you for playing!");
+        System.out.println("Thank you for Playing!");
     }
 
     public void printImage(int num) {
-        System.out.println("________Playing________");
+        System.out.println("________isPlaying________");
 
         if (num == 1) {
             System.out.println("O");
