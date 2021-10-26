@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Random;
 
 public class App {
-
-    ArrayList<String> words = new ArrayList<>();
     static List<Character> userGuesses = new ArrayList();
+    ArrayList<String> words = new ArrayList<>();
     Scanner read = new Scanner(System.in);
     boolean playing = true;
+    String desktopPath = System.getProperty("user.home") + "/Desktop";
 
     public static void main(String[] args) throws Exception {
         App main = new App();
 
         main.printMenu();
+        // System.out.println();
 
     }
 
@@ -28,16 +29,17 @@ public class App {
         System.out.println("WORD: " + word);
         while (true && playing) {
             System.out.println(); // Printing Next Line
-            String userChar = read.nextLine(); // Reading Player Input
+            String userChar = read.nextLine().toLowerCase(); // Reading Player Input
 
             // Validation for empty words
             while (userChar.isEmpty()) {
-                userChar = read.nextLine();
+                userChar = read.nextLine().toLowerCase();
             }
 
             userGuesses.add(userChar.charAt(0));
 
-            if (isCharacterInWord(word, userChar) && !numberCharacter(userChar)) {
+            if (isCharacterInWord(word.toLowerCase(), userChar.toLowerCase())
+                    && !numberCharacter(userChar.toLowerCase())) {
                 successWords++;
 
             } else if (!isCharacterInWord(word, userChar)) {
@@ -93,7 +95,7 @@ public class App {
 
                 for (int i = 0; i < 7; i++) {
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(100);
                     } catch (Exception e) {
                         System.out.print(e);
                     }
@@ -145,7 +147,7 @@ public class App {
 
     public String randomWord() {
         Random rand = new Random();
-        return words.get(rand.nextInt(words.size()));
+        return words.get(rand.nextInt(words.size())).toLowerCase();
 
     }
 
@@ -171,6 +173,14 @@ public class App {
 
     }
 
+    public void createTextFile() throws IOException {
+        File fl = new File("D:/OneDrive/Desktop/words.txt");
+        // File fl = new File(desktopPath);
+        fl.createNewFile();
+        System.out.println("File Created path = " + fl.getAbsolutePath());
+
+    }
+
     // Fetching Data From TXT File
     public void fetchData() {
         try {
@@ -182,7 +192,13 @@ public class App {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            try {
+                createTextFile();
+
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
         }
 
     }
