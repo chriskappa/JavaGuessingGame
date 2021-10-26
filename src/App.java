@@ -9,6 +9,7 @@ import java.util.Random;
 public class App {
     static List<Character> userGuesses = new ArrayList();
     ArrayList<String> words = new ArrayList<>();
+    ArrayList<User> users = new ArrayList<User>();
     Scanner read = new Scanner(System.in);
     boolean playing = true;
     String desktopPath = System.getProperty("user.home") + "/Desktop";
@@ -21,7 +22,17 @@ public class App {
 
     }
 
+    public void createUser() {
+        System.out.println("Please Enter your User Name");
+        String userName = read.nextLine();
+        System.out.println("Please Enter your Age");
+        int userAge = read.nextInt();
+        User newUser = new User(userName, userAge);
+        users.add(newUser);
+    }
+
     public void startGame() {
+        createUser();
         int successWords = 0;
         int unsuccessfulWords = 0;
 
@@ -50,7 +61,7 @@ public class App {
             }
 
             if (word.length() == successWords) {
-                System.out.println("Congratulations You Won!");
+                System.out.println("Congratulations " + users.get(0).getName() + "You Won!");
                 System.out.println("Successfull Words:" + successWords + " Unsuccessfull words:" + unsuccessfulWords);
                 break;
             }
@@ -87,7 +98,7 @@ public class App {
 
         System.out.println("_______________________");
         if (num == 5) {
-            System.out.println("You lost, Try Again!");
+            System.out.println("You lost " + users.get(users.size() - 1).getName() + ", Try Again!");
             System.out.println("Would You like to play again? if yes enter  yes or no ");
             if (read.nextLine().equals("yes")) {
                 printMenu();
@@ -103,9 +114,18 @@ public class App {
                 }
                 playing = false;
                 System.out.println("");
+                printPlayer();
                 System.out.println("Thank you for playing!");
             }
 
+        }
+    }
+
+    public void printPlayer() {
+        System.out.println("Players of The Game!");
+        for (User player : users) {
+            System.out.print(player.getName() + ":" + player.getAge());
+            System.out.println();
         }
     }
 
