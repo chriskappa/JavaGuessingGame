@@ -9,12 +9,24 @@ import java.util.List;
 import java.util.Random;
 
 public class App {
+
+    /*
+     * In order to make this program to work properly you need to change the path
+     * for the desktop file, currently its on my D one drive!
+     */
     List<Character> userGuesses = new ArrayList();
     ArrayList<String> words = new ArrayList<>();
     ArrayList<User> users = new ArrayList<User>();
     Scanner read = new Scanner(System.in);
     boolean isPlaying = true;
     String desktopPath = System.getProperty("user.home") + "/Desktop"; // Path for desktop!
+
+    /*
+     * Hell h
+     */
+    public App() {
+        fetchData(); /* Fetching data from .txt file in the desktop and populating the words list */
+    }
 
     public static void main(String[] args) throws Exception {
         App main = new App();
@@ -74,7 +86,7 @@ public class App {
             }
 
             if (word.length() == successWords) {
-                System.out.println("Congratulations " + users.get(0).getName() + "You Won!");
+                System.out.println("Congratulations " + users.get(0).getName() + " You Won!");
                 System.out.println("Successfull Words:" + successWords + " Unsuccessfull words:" + unsuccessfulWords);
                 System.out.println("Would You Like To Play Again? If Yes Enter  yes or no ");
                 if (read.nextLine().equals("yes")) {
@@ -169,11 +181,8 @@ public class App {
                 times++;
             }
         }
-        if (times > 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return times > 1;
+
     }
 
     // Returning number of user entered character in the word
@@ -211,19 +220,29 @@ public class App {
 
     // User Menu Interface
     public void printMenu() {
-        fetchData(); // Fetching Words From TXT.
         cleanLists();
         while (true) {
             System.out.println("Welcome To The Game");
             System.out.println("1)Start Game");
-            System.out.println("2)Random Function");
+            System.out.println("2)Print Users Leader Board!");
             System.out.println("Exit");
             String choice = read.nextLine().toLowerCase();
             if (choice.equals("1")) {
                 startGame();
                 break;
-            } else if (choice.equals("exit")) {
-                System.out.println("Your choice is not valid!");
+            } else if (choice.equals("2")) {
+                if (users.size() < 1) {
+                    System.out.println("There is no registered Players Yet, Be The First!");
+                } else {
+                    System.out.println(users.size());
+                    printPlayer();
+
+                }
+
+            } else {
+
+                endGame();
+                break;
 
             }
 
