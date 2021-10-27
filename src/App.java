@@ -11,7 +11,7 @@ import java.util.Random;
 public class App {
 
     /*
-     * Updated@ Today2! In order to make this program to work properly you need to
+     * Updated@22 Today2! In order to make this program to work properly you need to
      * change the path for the desktop file, currently its on my D one drive!
      */
     List<Character> userGuesses = new ArrayList();
